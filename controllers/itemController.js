@@ -33,16 +33,16 @@ exports.item_delete_get = (req, res, next) => {
 };
 
 //Handle item delete on POST.
-exports.item_create_post = (req, res, next) => {
+exports.item_delete_post = (req, res, next) => {
   res.send("NOT IMPLEMENTED: Item delete POST");
 };
 
 //Display item update form on GET.
-exports.item_create_get = (req, res, next) => {
+exports.item_update_get = (req, res, next) => {
   res.send("NOT IMPLEMENTED: Item update GET");
 };
 
 //Handle item create on POST.
-exports.item_create_post = (req, res, next) => {
+exports.item_update_post = (req, res, next) => {
   res.send("NOT IMPLEMENTED: Item update POST");
 };
