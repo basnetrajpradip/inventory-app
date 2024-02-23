@@ -23,16 +23,16 @@ exports.category_delete_get = (req, res, next) => {
 };
 
 //Handle category delete on POST.
-exports.category_create_post = (req, res, next) => {
+exports.category_delete_post = (req, res, next) => {
   res.send("NOT IMPLEMENTED: category delete POST");
 };
 
 //Display category update form on GET.
-exports.category_create_get = (req, res, next) => {
+exports.category_update_get = (req, res, next) => {
   res.send("NOT IMPLEMENTED: category update GET");
 };
 
 //Handle category create on POST.
-exports.category_create_post = (req, res, next) => {
+exports.category_update_post = (req, res, next) => {
   res.send("NOT IMPLEMENTED: category update POST");
 };
