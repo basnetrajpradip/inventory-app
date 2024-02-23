@@ -2,6 +2,11 @@ const Category = require("../models/category");
 
 const asyncHandler = require("express-async-handler");
 
+//Display list of all Categories
+exports.category_list = (req, res, next) => {
+  res.send("NOT IMPLEMENTED: category list");
+};
+
 //Display detail for a specific category.
 exports.category_detail = (req, res, next) => {
   res.send(`NOT IMPLEMENTED: category detail: ${req.params.id}`);
