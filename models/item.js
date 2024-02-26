@@ -8,6 +8,8 @@ const ItemSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   price: { type: Schema.Types.Decimal128, required: true },
   stock: { type: Number, required: true },
+  imageUrl: { type: String, require: true },
+  authorized: { type: Boolean, default: false },
 });
 
 //virtual for item's URL
