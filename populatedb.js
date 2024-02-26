@@ -28,20 +28,21 @@ async function main() {
   mongoose.connection.close();
 }
 
-async function categoryCreate(index, name, description) {
-  const category = new Category({ name: name, description: description });
+async function categoryCreate(index, name, description, imageUrl) {
+  const category = new Category({ name: name, description: description, imageUrl: imageUrl });
   await category.save();
   categories[index] = category;
   console.log(`Added category: ${name}`);
 }
 
-async function itemCreate({ index, name, description, category, price, stock }) {
+async function itemCreate({ index, name, description, category, price, stock, imageUrl }) {
   const itemDetail = {
     name: name,
     description: description,
     category: category,
     price: price,
     stock: stock,
+    imageUrl: imageUrl,
   };
 
   const item = new Item(itemDetail);
@@ -56,27 +57,32 @@ async function createCategories() {
     categoryCreate(
       0,
       "Electronics",
-      "Welcome to the electronics paradise, where innovation meets functionality. Dive into our extensive range of cutting-edge gadgets and devices designed to enhance your lifestyle. From smartphones and laptops to home entertainment systems and smart appliances, we have everything you need to stay connected and entertained. Explore our selection of top brands and the latest tech trends, and let us bring convenience and excitement to your fingertips."
+      "Welcome to the electronics paradise, where innovation meets functionality. Dive into our extensive range of cutting-edge gadgets and devices designed to enhance your lifestyle. From smartphones and laptops to home entertainment systems and smart appliances, we have everything you need to stay connected and entertained. Explore our selection of top brands and the latest tech trends, and let us bring convenience and excitement to your fingertips.",
+      "/images/electronics-default.jpg"
     ),
     categoryCreate(
       1,
       "Clothing",
-      "Elevate your wardrobe with our curated collection of stylish apparel. From timeless classics to the latest fashion trends, we offer a diverse range of clothing options for every occasion. Explore our selection of tops, bottoms, dresses, and outerwear, meticulously designed to enhance your personal style and make a statement wherever you go. Shop now and discover the perfect pieces to express your individuality"
+      "Elevate your wardrobe with our curated collection of stylish apparel. From timeless classics to the latest fashion trends, we offer a diverse range of clothing options for every occasion. Explore our selection of tops, bottoms, dresses, and outerwear, meticulously designed to enhance your personal style and make a statement wherever you go. Shop now and discover the perfect pieces to express your individuality",
+      "/images/clothing-default.jpg"
     ),
     categoryCreate(
       2,
       "Furniture",
-      "Transform your living space into a haven of comfort and style with our exquisite collection of furniture. Discover a world of elegance and functionality as you explore our curated selection of sofas, chairs, tables, and storage solutions. Crafted from the finest materials and designed with impeccable attention to detail, our furniture pieces seamlessly blend aesthetics with practicality. Whether you're revamping your home office or upgrading your living room, we have the perfect pieces to elevate your decor and create a space you'll love coming home to."
+      "Transform your living space into a haven of comfort and style with our exquisite collection of furniture. Discover a world of elegance and functionality as you explore our curated selection of sofas, chairs, tables, and storage solutions. Crafted from the finest materials and designed with impeccable attention to detail, our furniture pieces seamlessly blend aesthetics with practicality. Whether you're revamping your home office or upgrading your living room, we have the perfect pieces to elevate your decor and create a space you'll love coming home to.",
+      "/images/furniture-default.jpg"
     ),
     categoryCreate(
       3,
       "Groceries",
-      "Indulge in the freshest flavors and finest ingredients with our extensive selection of groceries. From pantry staples to gourmet treats, we offer a diverse range of products to satisfy every craving and culinary need. Explore our aisles filled with organic produce, artisanal snacks, and international delicacies, carefully curated to elevate your cooking and dining experience. With quality and convenience at the forefront, we're your one-stop destination for all your grocery essentials. Shop now and bring home the taste of excellence."
+      "Indulge in the freshest flavors and finest ingredients with our extensive selection of groceries. From pantry staples to gourmet treats, we offer a diverse range of products to satisfy every craving and culinary need. Explore our aisles filled with organic produce, artisanal snacks, and international delicacies, carefully curated to elevate your cooking and dining experience. With quality and convenience at the forefront, we're your one-stop destination for all your grocery essentials. Shop now and bring home the taste of excellence.",
+      "/images/groceries-default.jpg"
     ),
     categoryCreate(
       4,
       "Sports and Outdoor",
-      "Embrace your adventurous spirit with our exciting range of sports and outdoor gear. Whether you're a seasoned athlete or a weekend warrior, we have everything you need to fuel your passion for the great outdoors. Explore our collection of high-performance equipment, stylish activewear, and essential accessories designed to enhance your fitness routine and outdoor adventures. From hiking and camping to team sports and fitness training, we're here to support your active lifestyle. Gear up and get ready to conquer new challenges with confidence and style."
+      "Embrace your adventurous spirit with our exciting range of sports and outdoor gear. Whether you're a seasoned athlete or a weekend warrior, we have everything you need to fuel your passion for the great outdoors. Explore our collection of high-performance equipment, stylish activewear, and essential accessories designed to enhance your fitness routine and outdoor adventures. From hiking and camping to team sports and fitness training, we're here to support your active lifestyle. Gear up and get ready to conquer new challenges with confidence and style.",
+      "/images/sport&outdoors-default.jpg"
     ),
   ]);
 }
@@ -92,6 +98,7 @@ async function createItems() {
       category: categories[0],
       price: 699,
       stock: 9,
+      imageUrl: "/images/electronics2-default.jpg",
     }),
     itemCreate({
       index: 1,
@@ -101,6 +108,7 @@ async function createItems() {
       category: categories[0],
       price: 1399,
       stock: 4,
+      imageUrl: "/images/electronics1-default.jpg",
     }),
     itemCreate({
       index: 2,
@@ -110,6 +118,7 @@ async function createItems() {
       category: categories[1],
       price: 69,
       stock: 18,
+      imageUrl: "/images/clothes1-default.jpg",
     }),
     itemCreate({
       index: 3,
@@ -119,6 +128,7 @@ async function createItems() {
       category: categories[1],
       price: 20,
       stock: 2,
+      imageUrl: "/images/clothes2-default.jpg",
     }),
     itemCreate({
       index: 4,
@@ -128,6 +138,7 @@ async function createItems() {
       category: categories[2],
       price: 239,
       stock: 5,
+      imageUrl: "/images/furniture2-default.jpg",
     }),
     itemCreate({
       index: 5,
@@ -137,6 +148,7 @@ async function createItems() {
       category: categories[2],
       price: 2344,
       stock: 1,
+      imageUrl: "/images/furniture1-default.jpg",
     }),
     itemCreate({
       index: 6,
@@ -146,6 +158,7 @@ async function createItems() {
       category: categories[3],
       price: 36,
       stock: 32,
+      imageUrl: "/images/groceries1-default.jpg",
     }),
     itemCreate({
       index: 7,
@@ -155,6 +168,7 @@ async function createItems() {
       category: categories[3],
       price: 23,
       stock: 12,
+      imageUrl: "/images/groceries2-default.jpg",
     }),
     itemCreate({
       index: 8,
@@ -164,6 +178,7 @@ async function createItems() {
       category: categories[4],
       price: 89,
       stock: 4,
+      imageUrl: "/images/sports1-default.jpg",
     }),
     itemCreate({
       index: 9,
@@ -173,6 +188,7 @@ async function createItems() {
       category: categories[4],
       price: 169,
       stock: 19,
+      imageUrl: "/images/sports2-default.jpg",
     }),
   ]);
 }
