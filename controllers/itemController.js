@@ -2,7 +2,32 @@ const Item = require("../models/item");
 const Category = require("../models/category");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+const path = require("path");
+const fs = require("fs");
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
+function deleteImage(filePath) {
+  // Construct the full path to the image file
+  const fullPath = "public" + filePath;
+  // Check if the file exists
+  if (fs.existsSync(fullPath) && !filePath.includes("-default.")) {
+    // File exists, delete it
+    fs.unlinkSync(fullPath);
+  }
+}
+
+//Display index page
 exports.index = asyncHandler(async (req, res, next) => {
   const [numCategories, numItems] = await Promise.all([Category.countDocuments({}).exec(), Item.countDocuments({}).exec()]);
 
@@ -14,7 +39,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 //Display list of all items
 exports.item_list = asyncHandler(async (req, res, next) => {
-  const allItems = await Item.find({}, "name category").populate("category").sort({ name: 1 }).exec();
+  const allItems = await Item.find({}, "name category imageUrl").populate("category").sort({ name: 1 }).exec();
   res.render("item_list", {
     title: "All Items",
     items: allItems,
@@ -40,6 +65,8 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
 
 //Handle item create on POST.
 exports.item_create_post = [
+  upload.single("image"),
+
   //validate and sanitize the field.
   body("name", "Category must not be empty").trim().isLength({ min: 1 }).escape(),
   body("description", "Description must not be empty").trim().isLength({ min: 1 }).escape(),
@@ -64,12 +91,16 @@ exports.item_create_post = [
 
     const categories = await Category.find({}, "name").sort({ name: 1 }).exec();
 
+    const imageUrl = req.file ? req.file.path.replace(/^public/, "") : "/images/placeholder-default.webp";
+
     const item = new Item({
       name: req.body.name,
       description: req.body.description,
       category: req.body.category,
       price: req.body.price,
       stock: req.body.stock,
+      imageUrl: imageUrl,
+      authorized: true,
     });
 
     if (!errors.isEmpty()) {
@@ -88,14 +119,21 @@ exports.item_create_post = [
 ];
 
 //Display item delete form on GET.
-exports.item_delete_get = (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Item delete GET");
-};
+exports.item_delete_get = asyncHandler(async (req, res, next) => {
+  const item = await Item.findById(req.params.id).populate("category").exec();
+  res.render("item_delete", {
+    item: item,
+    title: `Delete Item: ${item.name}`,
+  });
+});
 
 //Handle item delete on POST.
-exports.item_delete_post = (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Item delete POST");
-};
+exports.item_delete_post = asyncHandler(async (req, res, next) => {
+  const item = await Item.findById(req.body.itemid).exec();
+  deleteImage(item.imageUrl);
+  await Item.findByIdAndDelete(req.body.itemid);
+  res.redirect("/inventory/items");
+});
 
 //Display item update form on GET.
 exports.item_update_get = asyncHandler(async (req, res, next) => {
@@ -112,8 +150,9 @@ exports.item_update_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-//Handle item create on POST.
+//Handle item update on POST.
 exports.item_update_post = [
+  upload.single("image"),
   //validate and sanitize the field.
   body("name", "Category must not be empty").trim().isLength({ min: 1 }).escape(),
   body("description", "Description must not be empty").trim().isLength({ min: 1 }).escape(),
@@ -138,6 +177,8 @@ exports.item_update_post = [
 
     const categories = await Category.find({}, "name").sort({ name: 1 }).exec();
 
+    const imageUrl = req.file ? req.file.path.replace(/^public/, "") : "/images/placeholder-default.webp";
+
     const item = new Item({
       name: req.body.name,
       description: req.body.description,
@@ -145,6 +186,8 @@ exports.item_update_post = [
       price: req.body.price,
       stock: req.body.stock,
       _id: req.params.id,
+      imageUrl: imageUrl,
+      authorized: true,
     });
 
     if (!errors.isEmpty()) {
