@@ -1,6 +1,6 @@
 # Inventory App
 
-"Inentory app" website written in in Node/Express.
+"Inventory app" website written in in Node/Express.
 
 This web application creates an online inventory, where users can browse available categories and items and manage them.
 
@@ -8,7 +8,7 @@ This web application creates an online inventory, where users can browse availab
 
 ## Live Preview
 
-Live preview of the web app is [Here](https://pradip-express-local-library.glitch.me/catalog).
+Live preview of the web app is [Here](https://pradip-inventory-app.glitch.me/inventory).
 
 ---
 
