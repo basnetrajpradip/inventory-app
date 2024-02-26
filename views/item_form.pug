@@ -1,0 +1,35 @@
+extends layout
+
+block content 
+  h1.form-title #{title}
+  .form-container 
+    form(method="POST" enctype="multipart/form-data")
+      input(type="text" name="name" placeholder="Item Name" required value=(undefined===item ? '' : item.name ))#name
+      textarea(name="description", cols="20", rows="15" placeholder="Item's Description" required)#description= value=(undefined===item ? '' : item.description )
+      div.select-container
+        label(for='selectCategory') Category:
+        select#selectCategory(name='category' required)
+          if !item
+            option(value='' disabled selected) --Select Category--
+          for category in categories
+            if item
+              if category._id.toString()===item.category._id.toString()
+                option(value=category._id selected) #{category.name}
+              else
+                option(value=category._id) #{category.name}
+            else
+              option(value=category._id) #{category.name}
+      div.number-input 
+         input(type="number" name="price" placeholder="Price in $" step="0.01" required value=(undefined===item ? '' : item.price.toString()))#price
+         input(type="number" name="stock" placeholder="In-Stock" required value=(undefined===item ? '' : item.stock))#stock
+      .file-upload
+        label(for="fileInput") Image:
+        input(type="file" name="image" accept="image/*")#fileInput
+      if !item 
+        button(type="sumbit")#submit Submit
+      else 
+        button(type="sumbit" disabled = !item.authorized).disabled-submit#submit= item.authorized ? "Submit" : "No permission to update default Item"
+  if errors
+    ul.error-container
+      for error in errors
+        li!= error.msg

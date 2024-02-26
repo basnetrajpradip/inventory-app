@@ -1,0 +1,20 @@
+extends layout 
+
+block content 
+  h1.form-title #{title}
+  .form-container 
+    form(method="POST" enctype="multipart/form-data")
+      if category
+      input(type="text" name="name" placeholder="Category Name" value=(undefined===category ? '' : category.name ) required)#name
+      textarea(name="description", cols="32", rows="15" placeholder="Category's Description"  required)#description= undefined===category ? '' : category.description
+      .file-upload
+        label(for="fileInput") Image:
+        input(type="file" name="image" accept="image/*")#fileInput
+      if !category 
+        button(type="sumbit")#submit Submit
+      else 
+        button(type="sumbit" disabled = !category.authorized).disabled-submit#submit= category.authorized ? "Submit" : "No permission to update default Category"
+  if errors
+    ul.error-container
+      for error in errors
+        li!= error.msg

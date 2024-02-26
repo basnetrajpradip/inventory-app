@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .list-container 
+    h1.content-title #{title} 
+    .create-container 
+      a(href="/inventory/category/create").create-category  ✍🏼Create Category
+    .grid-container
+      if categories.length
+        each category in categories
+          a(href=category.url).card
+            .image
+              img(src=category.imageUrl, alt="Image 1")
+            .title #{category.name}
+
+    

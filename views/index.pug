@@ -1,5 +1,17 @@
 extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
+block content 
+  .home-container
+    .hero-info 
+      .categories-count No. of Categories: #{category_count}
+      .items-count No. of Items: #{item_count}
+    .hero-container 
+      .hero-text
+        h1 Welcome to THE INVENTORY.
+        h3 Create, Read, Update, and Delete items and categories as per your need.
+      h3 *Note: You're not allowed to perfom Delete & Update on default items.
+      .create-container 
+        a(href="/inventory/category/create").create-category  ✍🏼Create Category
+        a(href="/inventory/item/create").create-item ✍🏼Create Item
+
+  

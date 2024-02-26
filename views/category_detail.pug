@@ -1,0 +1,23 @@
+extends layout 
+
+block content
+  .content-container 
+    .category-img
+      img(src=category.imageUrl, alt="Image 1")
+    .category-container
+      h1.category-title Category: #{category.name}
+      .category-description #{category.description}
+  .create-container 
+      a(href=category.url+'/update').create-category  ✍🏼Update Category
+      a(href=category.url+'/delete').create-item 🗑️Delete Category
+  .list-container 
+    h1.content-title Items in #{category.name}
+    .grid-container
+      if categoryItems.length
+        each item in categoryItems
+          a(href=item.url).card
+            .image
+              img(src=item.imageUrl, alt="Image 1")
+            .title #{item.name}
+
+    

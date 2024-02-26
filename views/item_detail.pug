@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .content-container 
+    .item-img
+      img(src=item.imageUrl, alt="Image 1")
+    .item-container
+      h1.item-title Item: #{item.name}
+      .item-description #{item.description}
+      .item-price Price: $#{item.price}
+      .item-stock In-Stock: #{item.stock}
+      .item-category Category: #[a(href=item.category.url) #{item.category.name}]
+  .create-container 
+        a(href=item.url+'/update').create-category  ✍🏼Update Item
+        a(href=item.url+'/delete').create-item 🗑️Delete Item
+        

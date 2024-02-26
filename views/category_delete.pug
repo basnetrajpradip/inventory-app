@@ -1,0 +1,29 @@
+extends layout 
+
+block content
+  .content-container 
+    .category-img
+      img(src=category.imageUrl, alt="Image 1")
+    .category-container
+      h1.category-title #{title}
+      .category-description #{category.description}
+  if categoryItems.length 
+    h2.delete-info #[strong Delete the following items before attempting to delete this category.]
+    .list-container 
+      h1.content-title Items in #{category.name}
+      .grid-container
+        if categoryItems.length
+          each item in categoryItems
+            a(href=item.url).card
+              .image
+                img(src=item.imageUrl, alt="Image 1")
+              .title #{item.name}
+  else
+    .delete-container  
+      h2.delete-info Do you really want to delete this Category?
+      form(method='POST')
+        div.form-group 
+          input#bookid.form-control(type='hidden',name='categoryid',value=category._id)
+        .delete-btn-container
+          button.delete-btn(type='submit') Delete
+          a(href=category.url).cancel-btn Cancel
